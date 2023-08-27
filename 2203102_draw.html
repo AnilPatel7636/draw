@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Board</title>
+    <style>
+        body {
+            background-color: rgb(102, 130, 166);
+            font-family: cursive;
+            display: flex;
+            
+            justify-content: center;
+            z-index: -1;
+
+
+        }
+
+        #container {
+            background-color: rgb(169, 116, 147);
+            height: 100%;
+            width: 80%;
+            border: 10px solid rgb(209, 7, 245);
+            border-radius: 100px;
+            padding: 30px;
+            margin: 30px;
+        }
+
+        h1,
+        h3,
+        #input,
+        #btn1,
+        #btn2,
+        #ar,
+        #pmtr,
+        .canvas,
+        .para {
+            display: flex;
+            justify-content: center;
+
+        }
+
+
+        #cntr {
+            text-align: center;
+        }
+
+        #h1 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 50px;
+            text-decoration: underline;
+
+        }
+
+
+
+
+
+
+        .btn {
+           
+            padding: 10px 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #ff5252;
+            border: 2px solid #000;
+            border-radius: 10px;
+            box-shadow: 5px 5px 0px #000;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: #fff;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            box-shadow: 5px 5px 0px #ff5252;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            background-color: #fcf414;
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+
+
+        #rst {
+            height: 2.8em;
+            width: 9em;
+            background: transparent;
+            -webkit-animation: jello-horizontal 0.9s both;
+            animation: jello-horizontal 0.9s both;
+            border: 12px solid dark rgb(21, 22, 21);
+            outline: none;
+            color: #370bc7;
+            font-size: 17px;
+            border-radius: 25px;
+        }
+
+        #rst:hover {
+            background: #016DD9;
+            color: #ffffff;
+            animation: squeeze3124 0.9s both;
+        }
+
+        @keyframes squeeze3124 {
+            0% {
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1);
+            }
+
+            30% {
+                -webkit-transform: scale3d(1.25, 0.75, 1);
+                transform: scale3d(1.25, 0.75, 1);
+            }
+
+            40% {
+                -webkit-transform: scale3d(0.75, 1.25, 1);
+                transform: scale3d(0.75, 1.25, 1);
+            }
+
+            50% {
+                -webkit-transform: scale3d(1.15, 0.85, 1);
+                transform: scale3d(1.15, 0.85, 1);
+            }
+
+            65% {
+                -webkit-transform: scale3d(0.95, 1.05, 1);
+                transform: scale3d(0.95, 1.05, 1);
+            }
+
+            75% {
+                -webkit-transform: scale3d(1.05, 0.95, 1);
+                transform: scale3d(1.05, 0.95, 1);
+            }
+
+            100% {
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1);
+            }
+
+        }
+
+        input {
+            background-color: #78d791;
+            padding-left: 15px;
+            margin-left: 10px;
+            height: 20px;
+            border-radius: 10px;
+            text-align: center;
+
+        }
+    </style>
+   
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}});
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+
+<body>
+    <div id="container">
+
+        <h1 id="h1">Drawing board</h1>
+        <div class="para">
+            <p>This webpage helps you to visualize simple geometrical shapes such as circle and rectangle.</p>
+        </div>
+
+        <h3>Circle</h3>
+        <div class="para">
+            <p id="cntr"> The $area$ of a circle with radius $r$ is given by $\pi r^2$ . Similarly, the $perimeter$
+                of a circle with
+                radius $r$ is given by $2\pi r$. Now, let's visualize the circle using Javascript and HTML.</p>
+        </div>
+
+        <div id="input">
+            <label for="radius">Enter the radius $r$:</label>
+            <input type="number" id="r" name="radius" placeholder="any positive real number">
+        </div>
+        <br>
+
+        <div id="btn1">
+            <button type="button" class="btn" id="VR" onclick="validation()">Validate Radius</button>
+            <button type="button" class="btn" id="D" onclick="drawing()">Draw</button>
+            <button type="button" class="btn" id="CAP" onclick="calculate()">Compute Area/Perimeter</button>
+
+        </div>
+        <div class="para">
+            <p id="ar"></p>
+        </div>
+        <div>
+            <p id="pmtr"></p>
+        </div>
+
+
+
+        <div class="canvas">
+
+            <canvas id="paper1" width="400px" height="400px" style="border:2px solid #f10909"></canvas>
+        </div>
+        <br>
+
+
+        <div id="btn2">
+            <button type="button" id="rst" onclick="clearinput()">Reset</button>
+
+        </div>
+    </div>
+
+    <script>
+
+
+        function validation() {
+            let VR = document.getElementById('VR');
+            var r = document.getElementById('r').value;
+            if (r <= 0) {
+                alert("Invalid input")
+            }
+            else if (r === null) {
+                alert("no input")
+            }
+
+        }
+
+        function drawing() {
+            var r = document.getElementById('r').value;
+
+            if (r <= 0) {
+                alert("Invalid input")
+            }
+
+            else if (r === null) {
+                alert("no input")
+            }
+            else if (r > 200) {
+                alert("limit excedded")
+            }
+            else {
+                let D = document.getElementById('D');
+                var r = document.getElementById('r').value;
+
+                var ctx = document.getElementById('paper1').getContext("2d");
+                ctx.beginPath();
+                ctx.arc(200, 200, r, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+        }
+
+
+        function calculate() {
+            let CAP = document.getElementById('CAP');
+            var r = document.getElementById('r').value;
+            let area = (3.14 * r * r);
+            let perimeter = (2 * 3.14 * r);
+
+            console.log(area);
+            console.log(perimeter);
+
+            if (r <= 0) {
+                alert("Invalid input")
+            }
+            else if (r === null) {
+                alert("no input")
+            }
+            else {
+                document.getElementById('ar').innerHTML = "Area of circle :" + area;
+                document.getElementById('pmtr').innerHTML = "Perimeter of circle :" + perimeter;
+
+            }
+
+        }
+
+        function clearinput() {
+            document.getElementById('ar').innerHTML = " ";
+            document.getElementById('pmtr').innerHTML = " ";
+            document.getElementById('r').value = null;
+            var ctx = document.getElementById('paper1').getContext("2d");
+            ctx.clearRect(0, 0, 400, 400);
+        }
+    </script>
+
+</body>
+
+</html>
